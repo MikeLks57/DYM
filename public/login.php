@@ -4,8 +4,8 @@
 
 session_start();
 
-require_once '../include/twootDbconnect.php';
-require_once '../include/twootSniffer.php';
+require_once '../include/dBConnection.php';
+require_once '../include/functions.php';
 
 if(isset($_POST['login'])) {
    
@@ -49,7 +49,7 @@ if(isset($_POST['login'])) {
 
 
 
-// Calling homepage ////   Code to add on homepage: 
+// code à insérer dans page home
 // 
 // if(!isset($_SESSION['user'])) { header('Location: login.php');  exit;}
 //
@@ -83,14 +83,14 @@ if(isset($_POST['login'])) {
     <input type="email" name="mail" required placeholder="E-mail" value="<?php if(isset($mail)) echo $mail ?>">
 <?php if(isset($errors['mail'])) {
     if(isset($errors['mail']['empty']))
-        echo 'Merci de compléter ce champ';
+        echo 'champ incomplet';
     elseif(isset($errors['mail']['invalid']))
-        echo 'Le mail n\'est pas valide';
+        echo 'mail non valide';
 } ?>
     <input type="password" name="password" required placeholder="Mot de passe">
     <?php if(isset($errors['pass'])) {
         if(isset($errors['pass']['empty']))
-            echo 'Merci de compléter ce champ';
+            echo 'champ incomplet';
     } ?>
     <button type="submit" name="login">Connexion</button>
 </form>
