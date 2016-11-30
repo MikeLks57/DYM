@@ -101,7 +101,6 @@ if (isset($_POST['pfSubmit'])) {
             // Maintenant, on ajoute en base, et on place le fichier temporaire dans le dossier uploads/
             if(count($errors) == 0) {
                 $lastPicId = addPicture($pdo, $fileName, $confirmAlt, 1);
-                echo $lastPicId;
                 addPortfolio($pdo, $confirmTitle, $confirmLegend, $lastPicId, 1);
                 $moved = move_uploaded_file($_FILES['pfPic']['tmp_name'], $fullPath);
                 $display = true;
@@ -112,9 +111,9 @@ if (isset($_POST['pfSubmit'])) {
         }
     } // Fin si fichier présent
 
-
-
 }
+
+$portfolio = getPortfolio($pdo);
 
 ?>
 <!DOCTYPE html>
@@ -124,12 +123,47 @@ if (isset($_POST['pfSubmit'])) {
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title></title>
 	<link rel="stylesheet" href="">
+	<style>
+		.content {
+			display: flex;
+			flex-direction: column;
+			border: 1px solid red;
+			width: 100%;
+		}
+		section.completePortfolio {
+			border: 4px solid blue;
+			display: flex;
+			flex-wrap: wrap;
+			width: 80%;
+			margin: auto;
+			justify-content: center;
+		}
+		.portfolio {
+			width: 20%;
+			display: flex;
+			flex-direction: column;
+			border: 1px solid black;
+			text-align: center;
+			overflow: hidden;
+			margin: 5px;
+		}
+		.pfImg {
+			width: 100%;
+			text-align: center;
+		}
+		.pfImg img {
+			width: 50px;
+			height: 50px;
+
+		}
+	</style>
 </head>
 <body>
 
 	<h1>Portfolio</h1>
 
 	<main>
+		<div class="content">
 		<section class="form">
 			<form enctype="multipart/form-data" action="#" method="post" id="portfolioForm">
 				<fieldset>
@@ -158,13 +192,30 @@ if (isset($_POST['pfSubmit'])) {
 			</form>
 		</section>
 		<br><br>
-		<?php if($display) : ?>
-			<section class="envoiConfirm">
-				<div class="confirm">
-					<p>Votre portfolio a bien été chargé!</p>
+		<!-- <section class="envoiConfirm">
+			<div class="confirm hidden">
+				<p>Votre portfolio a bien été chargé!</p>
+			</div>
+		</section> -->
+		<section class="completePortfolio">
+			<?php foreach($portfolio as $pf) : ?>
+				<div class="portfolio">
+					<div class="pfImg">
+						<img src="../include/uploads/<?= $pf['url'] ?>" alt="<?= $pf['alt'] ?>">
+					</div>
+					<div class="pfTitle">
+						<h2><?= $pf['title']?></h2>
+					</div>
+					<div class="pfLegend">
+						<?= $pf['legend']?>
+					</div>
+					<div class="pfAlt">
+						<?= $pf['alt']?>
+					</div>
 				</div>
-			</section>
-		<?php endif ; ?>
+			<?php endforeach ; ?>
+		</section>
+		</div>
 	</main>
 	
 </body>

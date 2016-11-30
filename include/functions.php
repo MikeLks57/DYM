@@ -25,5 +25,12 @@
 		return $lastPf;
 	}
 
+	function getPortfolio($pdo)
+	{
+		$sql = 'SELECT pictures.url, pictures.alt, portfolios.title, portfolios.legend FROM pictures INNER JOIN portfolios ON portfolios.idPicture = pictures.idPicture ORDER BY date_created DESC';
+		$result = $pdo->query($sql);
+		return $result;
+	}
+
 
 
