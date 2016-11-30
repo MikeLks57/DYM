@@ -60,21 +60,26 @@ if(isset($_POST['login'])) {
     }
 }
 
-?><!doctype html>
+?>
+<!doctype html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Connexion </title>
+    <title>Connexion</title>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="assets/js/script.js"></script>
    <!-- <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">-->
     <!--<link rel="stylesheet" href="assets/css/styles.css">-->
 </head>
 <body>
-<?php if(isset($errorLogin)) echo 'Identifiant incorrect<br>'; ?>
-<?php if(isset($_GET['action']) && $_GET['action'] == 'logoff') echo '<dialog open>Vous êtes déconnecté</dialog>'; ?>
-<br>
-<form action="#" method="post">
+    <?php if(isset($errorLogin)) : ?> 
+        <p>Erreur de connection</p>
+    <?php endif ; ?>
+    <?php if(isset($_GET['action']) && $_GET['action'] == 'logoff') : ?>
+        <dialog open>Vous êtes déconnecté</dialog>
+    <?php endif ; ?>
+    <br>
+    <form action="#" method="post">
     <input type="email" name="mail" required placeholder="E-mail" value="<?php if(isset($mail)) echo $mail ?>">
 <?php if(isset($errors['mail'])) {
     if(isset($errors['mail']['empty']))
