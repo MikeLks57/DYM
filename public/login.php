@@ -41,24 +41,21 @@ if(isset($_POST['login'])) {
         if(password_verify($pass, $user['password'])) {
           
             $_SESSION['user'] = [
-                'login' => $user['login'],
-                'lastname' => $user['lastname'],
                 'firstname' => $user['firstname'],
-                'role' => $user['role'],
+                'lastname' => $user['lastname'],
+                'password' => $user['password'],
+               // 'owner' => $user['owner'],
             ];
 
 
 
-// code à insérer dans page home
-// 
-// if(!isset($_SESSION['user'])) { header('Location: login.php');  exit;}
-//
-// 
    
 
             header('Location: home.php?action=login');
             exit;
         } else {
+            header('Location: login.php'); 
+            exit;
            
             $errorLogin = true;
         }
