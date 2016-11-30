@@ -2,6 +2,9 @@
 require_once '../include/dBConnection.php';
 require_once '../include/functions.php';
 
+$idUser = 1;
+$getAvatar = getAvatar($idUser);
+$getUser = getUser($idUser);
 
 ?><!DOCTYPE html>
 <html>
@@ -15,13 +18,13 @@ require_once '../include/functions.php';
 
 <header id="Header" class="Header">
 	<div>
-		<img src="" alt="">
-		<p></p>
+		<img src="../include/uploads/<?php echo $getAvatar['url'] ?>" alt="<?php echo $getAvatar['alt'] ?>">
+		<p><?php echo $getUser['firstname'] ?></p>
+		<nav>
+			<a href="index.php"><div>Accueil</div></a>
+			<a href="portfolio.php"><div>Portfolio</div></a>
+			<a href="contact.php"><div>Contact</div></a>
+		</nav>
 	</div>
-	<nav>
-		<a href="index.php"><div>Accueil</div></a>
-		<a href="portfolio.php"><div>Portfolio</div></a>
-		<a href="contact.php"><div>Contact</div></a>
-		
-	</nav>
+
 </header><!-- /header -->
