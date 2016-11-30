@@ -1,8 +1,9 @@
 <?php 
-session_start();
-require_once '../include/dBConnection.php';
-require_once '../include/functions.php';
 
+require_once 'header-admin.php';
+$idUser = 1;
+$getAvatar = getAvatar($idUser);
+$getUser = getUser($idUser);
 if (isset($_POST['send-file'])) {
 	$errors = [];
 	// Vérifier si le téléchargement du fichier n'a pas été interrompu
@@ -53,7 +54,14 @@ if (isset($_POST['send-file'])) {
 
             // Maintenant, on ajoute en base, et on place le fichier temporaire dans le dossier uploads/
             if(count($errors) == 0) {
-            	addAvatar($fileName, $_FILES['avatar']['tmp_name'], 1);// ATTENTION ID USER ENTRER EN DURE A CHANGER PLUTARD
+                if (empty($getAvatar)) {
+                    addAvatar($fileName, $_POST['alt'], $idUser);// ATTENTION ID USER ENTRER EN DURE A CHANGER PLUTARD
+                } else {
+                    unlink('../include/uploads/' . $getAvatar['url'] );
+                    updateAvatar($fileName, $_POST['alt'], $idUser);
+                    $getAvatar = getAvatar($idUser);
+                }
+            	
             	$moved = move_uploaded_file($_FILES['avatar']['tmp_name'], $fullPath);
             	if (!$moved) {
             		$errors['avatar'] = 'Erreur lors de l\'enregistrement';
@@ -62,21 +70,20 @@ if (isset($_POST['send-file'])) {
         }
     } // Fin si fichier présent
 }
-?><!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title></title>
-	<link rel="stylesheet" href="">
-</head>
-<body>
+
+?>
+    Nom: <?php echo $getUser['firstname'] ?>
 	<form enctype="multipart/form-data" action="#" method="POST">
-		Votre nom: <input type="text">
-		Avatar: Sélectionner le fichier : <input name="avatar" type="file" />
+		Sélectionner le fichier : <input name="avatar" type="file" />
 		<?php if(isset($errors['avatar'])) echo $errors['avatar'] ?>
+        Entrer un texte alternatif: <input type="text" name="alt">
 		<input type="submit" name="send-file" value="Envoyer le fichier" />
-		
+
 	</form>
+    Avatar: <br>
+    <div class="avatar"><img src="../include/uploads/<?php echo $getAvatar['url'] ?>" alt="<?php echo $getAvatar['alt'] ?>"></div>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="assets/js/script.js" ></script>
 </body>
 </html>
