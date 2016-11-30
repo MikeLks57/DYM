@@ -51,6 +51,7 @@ if(isset($_POST['login'])) {
 //
 // 
 
+
             header('Location: home.php?action=login');
             exit;
         } else {
@@ -95,9 +96,11 @@ if(isset($_POST['login'])) {
     <?php if(isset($errors['pass'])) {
         if(isset($errors['pass']['empty']))
 
+
             echo 'Merci de compléter ce champ';
 
 ?>
+
     <button type="submit" name="login">Connexion</button>
 </form>
 </body>
