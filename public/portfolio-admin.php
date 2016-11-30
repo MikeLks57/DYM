@@ -100,7 +100,9 @@ if (isset($_POST['pfSubmit'])) {
 
             // Maintenant, on ajoute en base, et on place le fichier temporaire dans le dossier uploads/
             if(count($errors) == 0) {
-                addPicturePf($pdo, $fileName, $confirmTitle, $confirmLegend, $confirmAlt, 1);
+                $lastPicId = addPicture($pdo, $fileName, $confirmAlt, 1);
+                echo $lastPicId;
+                addPortfolio($pdo, $confirmTitle, $confirmLegend, $lastPicId, 1);
                 $moved = move_uploaded_file($_FILES['pfPic']['tmp_name'], $fullPath);
                 $display = true;
                 if (!$moved) {
@@ -109,6 +111,7 @@ if (isset($_POST['pfSubmit'])) {
             }
         }
     } // Fin si fichier présent
+
 
 
 }
@@ -154,6 +157,14 @@ if (isset($_POST['pfSubmit'])) {
 				</fieldset>
 			</form>
 		</section>
+		<br><br>
+		<?php if($display) : ?>
+			<section class="envoiConfirm">
+				<div class="confirm">
+					<p>Votre portfolio a bien été chargé!</p>
+				</div>
+			</section>
+		<?php endif ; ?>
 	</main>
 	
 </body>
