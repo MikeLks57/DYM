@@ -1,5 +1,8 @@
 <?php
 
+/*----------  Portfolio back  ----------*/
+
+
 	function addPicture($pdo, $url, $alt, $idUser)
 	{
 		$sql = 'INSERT INTO pictures(url, alt, idUser) VALUES (:url, :alt, :idUser)';
@@ -31,6 +34,10 @@
 		$result = $pdo->query($sql);
 		return $result;
 	}
+
+
+/*----------  -----------------  ----------*/
+
 
 
 

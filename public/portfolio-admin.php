@@ -154,7 +154,6 @@ $portfolio = getPortfolio($pdo);
 		.pfImg img {
 			width: 50px;
 			height: 50px;
-
 		}
 	</style>
 </head>
@@ -211,6 +210,9 @@ $portfolio = getPortfolio($pdo);
 					</div>
 					<div class="pfAlt">
 						<?= $pf['alt']?>
+					</div>
+					<div class="delete">
+						<button name="delete">Supprimer</button>
 					</div>
 				</div>
 			<?php endforeach ; ?>
