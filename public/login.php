@@ -1,11 +1,11 @@
-
-  
 <?php
 
 session_start();
 
-require_once '../include/twootDbconnect.php';
-require_once '../include/twootSniffer.php';
+
+require_once '../include/dBConnection.php';
+require_once '../include/functions.php';
+
 
 if(isset($_POST['login'])) {
    
@@ -41,11 +41,14 @@ if(isset($_POST['login'])) {
         if(password_verify($pass, $user['password'])) {
           
             $_SESSION['user'] = [
-                'login' => $user['login'],
-                'lastname' => $user['lastname'],
+
                 'firstname' => $user['firstname'],
-                'role' => $user['role'],
+                'lastname' => $user['lastname'],
+                'password' => $user['password'],
+                'owner' => $user['owner'],
+
             ];
+
 
 
 
@@ -54,11 +57,16 @@ if(isset($_POST['login'])) {
 // if(!isset($_SESSION['user'])) { header('Location: login.php');  exit;}
 //
 // 
+
+
    
 
             header('Location: home.php?action=login');
             exit;
         } else {
+            header('Location: login.php'); 
+            exit;
+
            
             $errorLogin = true;
         }
@@ -83,14 +91,17 @@ if(isset($_POST['login'])) {
     <input type="email" name="mail" required placeholder="E-mail" value="<?php if(isset($mail)) echo $mail ?>">
 <?php if(isset($errors['mail'])) {
     if(isset($errors['mail']['empty']))
+
         echo 'Merci de compléter ce champ';
     elseif(isset($errors['mail']['invalid']))
         echo 'Le mail n\'est pas valide';
+
 } ?>
     <input type="password" name="password" required placeholder="Mot de passe">
     <?php if(isset($errors['pass'])) {
         if(isset($errors['pass']['empty']))
             echo 'Merci de compléter ce champ';
+
     } ?>
     <button type="submit" name="login">Connexion</button>
 </form>
