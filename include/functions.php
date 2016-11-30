@@ -1,4 +1,6 @@
 <?php 
+/*----------  fonction pour recuperer les infos de l'utilisateur  ----------*/
+
 function getUser($idUser){
     global $pdo;
 
@@ -8,6 +10,9 @@ function getUser($idUser){
     $stmt->execute();
     return $stmt->fetch();
 }
+
+/*----------  Fonction pour AVATAR  ----------*/
+
 
 function addAvatar($url, $alt, $idUser)
 {
