@@ -74,6 +74,17 @@ function getAvatar($idUser){
 		return $lastPic;
 	}
 
+    function getPicture($pdo)
+    {
+        $sql =  'SELECT url, alt, idUser '.
+                'FROM pictures ';
+        $stmt = $pdo->query($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+
+
 	function addPortfolio($pdo, $title, $legend, $idPicture, $idCategory)
 	{
 		$sql = 'INSERT INTO portfolios (title, legend, idPicture, idCategory) VALUES (:title, :legend, :idPicture, :idCategory)';
