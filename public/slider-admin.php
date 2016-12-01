@@ -1,7 +1,7 @@
 <?php 
 
 require_once 'header-admin.php';
-
+$getPictures = getPicture($pdo);
 if (isset($_POST['send-file'])) {
     $errors = [];
     // Vérifier si le téléchargement du fichier n'a pas été interrompu
@@ -53,12 +53,9 @@ if (isset($_POST['send-file'])) {
             // Maintenant, on ajoute en base, et on place le fichier temporaire dans le dossier uploads/
             if(count($errors) == 0) {
                 if (empty($getpicture)) {
-                    addpicture($fileName, $_POST['alt'], $idUser);// ATTENTION ID USER ENTRER EN DURE A CHANGER PLUTARD
-                    $getpicture = getpicture($idUser);
+                    addpicture($pdo, $fileName, $_POST['alt'], $idUser);// ATTENTION ID USER ENTRER EN DURE A CHANGER PLUTARD
                 } else {
-                    unlink('../include/uploads/' . $getpicture['url'] );
-                    updatepicture($fileName, $_POST['alt'], $idUser);
-                    $getpicture = getpicture($idUser);
+                    addpicture($fileName, $_POST['alt'], $idUser);
                 }
                 
                 $moved = move_uploaded_file($_FILES['picture']['tmp_name'], $fullPath);
@@ -77,3 +74,7 @@ if (isset($_POST['send-file'])) {
     Entrer un texte alternatif: <input type="text" name="alt">
     <input type="submit" name="send-file" value="Envoyer le fichier" />
 </form>
+
+<?php foreach ($getPictures as $getPicture): ?>
+    <img src="../include/uploads/<?php echo $getPicture['url'] ?>" alt="<?php echo $getPicture['alt'] ?>">
+<?php endforeach ?>
