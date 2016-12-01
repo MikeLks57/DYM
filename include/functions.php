@@ -22,7 +22,7 @@ function getUser($idUser){
     return $stmt->fetch();
 }
 
-/*----------  Fonction pour AVATAR  ----------*/
+/*----------   AVATAR  ----------*/
 
 
 function addAvatar($url, $alt, $idUser)
@@ -59,7 +59,7 @@ function getAvatar($idUser){
 
 }
 
-/*----------  Portfolio back  ----------*/
+/*----------  Portfolio  ----------*/
 
 
 	function addPicture($pdo, $url, $alt, $idUser)
@@ -89,7 +89,10 @@ function getAvatar($idUser){
 
 	function getPortfolio($pdo)
 	{
-		$sql = 'SELECT pictures.url, pictures.alt, portfolios.title, portfolios.legend FROM pictures INNER JOIN portfolios ON portfolios.idPicture = pictures.idPicture ORDER BY date_created DESC';
+		$sql =  'SELECT pictures.url, pictures.alt, portfolios.title, portfolios.legend '.
+                'FROM pictures '.
+                'INNER JOIN portfolios ON portfolios.idPicture = pictures.idPicture '.
+                'ORDER BY date_created DESC';
 		$result = $pdo->query($sql);
 		return $result;
 	}
@@ -133,6 +136,30 @@ function getAvatar($idUser){
     }
 }
 
+/*----------  Post  ----------*/
 
+function addContent($title, $content, $idPicture, $idUser)
+{
+    global $pdo;
 
+    $sql = 'INSERT INTO posts (title, content, idPicture, idUser) VALUES(:title, :content, :idPicture, :idUser)';
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':title', $title);
+    $stmt->bindParam(':content', $content);
+    $stmt->bindParam(':idPicture', $idPicture);
+    $stmt->bindParam(':idUser', $idUser);
+    $stmt->execute();
+}
+
+function getPost(){
+    global $pdo;
+
+    $sql =  'SELECT title, content, datePost, url, alt, firstname, lastname '.
+            'FROM posts '.
+            'INNER JOIN pictures ON pictures.idPicture = posts.idPicture '.
+            'INNER JOIN users ON users.idUser = posts.idUser';
+    $stmt = $pdo->query($sql);
+    $stmt->execute();
+    return $stmt->fetchAll();
+}
 

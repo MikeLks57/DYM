@@ -86,8 +86,10 @@ if(isset($_POST['login'])) {
         
         <input type="password" name="password" required placeholder="Mot de passe">
         <?php if(isset($errors['pass'])) {
-            if(isset($errors['pass']['empty']))
+            if(isset($errors['pass']['empty'])){
                 echo 'Merci de compléter ce champ';
+            }
+        }
         ?>
 
         <button type="submit" name="login">Connexion</button>
