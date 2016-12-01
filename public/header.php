@@ -21,7 +21,7 @@ $getUser = getUser($idUser);
 		<img src="../include/uploads/<?php echo $getAvatar['url'] ?>" alt="<?php echo $getAvatar['alt'] ?>">
 		<p><?php echo $getUser['firstname'] ?></p>
 		<nav>
-			<a href="index.php"><div>Accueil</div></a>
+			<a href="home.php"><div>Accueil</div></a>
 			<a href="portfolio.php"><div>Portfolio</div></a>
 			<a href="contact.php"><div>Contact</div></a>
 		</nav>
