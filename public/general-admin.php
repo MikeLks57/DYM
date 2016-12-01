@@ -1,7 +1,7 @@
 <?php 
 
 require_once 'header-admin.php';
-$idUser = 1;
+$idUser = $_SESSION['user']['id'];
 $getAvatar = getAvatar($idUser);
 $getUser = getUser($idUser);
 if (isset($_POST['send-file'])) {
@@ -56,6 +56,7 @@ if (isset($_POST['send-file'])) {
             if(count($errors) == 0) {
                 if (empty($getAvatar)) {
                     addAvatar($fileName, $_POST['alt'], $idUser);// ATTENTION ID USER ENTRER EN DURE A CHANGER PLUTARD
+                    $getAvatar = getAvatar($idUser);
                 } else {
                     unlink('../include/uploads/' . $getAvatar['url'] );
                     updateAvatar($fileName, $_POST['alt'], $idUser);

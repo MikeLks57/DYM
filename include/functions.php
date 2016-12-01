@@ -1,10 +1,21 @@
 <?php 
-/*----------  fonction pour recuperer les infos de l'utilisateur  ----------*/
 
-function getUser($idUser){
+/*--------  fonction pour recuperer les infos de l'utilisateur ------*/
+
+function getUserByMail($mail){
     global $pdo;
 
-    $sql =  'SELECT idUser, firstname, lastname, mail, password, owner FROM users WHERE idUser = :idUser';
+    $sql =  'SELECT idUser, firstname, lastname, mail, password, owner FROM users WHERE mail = :mail';
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':mail', $mail);
+    $stmt->execute();
+    return $stmt->fetch();
+}
+
+function getUser($idUser){
+	global $pdo;
+
+    $sql =  'SELECT firstname, lastname, mail, password, owner FROM users WHERE idUser = :idUser';
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':idUser', $idUser);
     $stmt->execute();
@@ -83,38 +94,8 @@ function getAvatar($idUser){
 		return $result;
 	}
 
+/*----------  Envoi de mail  ----------*/
 
-/*----------  -----------------  ----------*/
-
-
-
-
-//à côté de la plaque...//
-
-/*
-require 'connection.php';
-$conn    = Connect();
-$name    = $conn->real_escape_string($_POST['nom']);
-$email   = $conn->real_escape_string($_POST['mail']);
-$message = $conn->real_escape_string($_POST['message']);
-$query   = "INSERT into users (name,mail,sujet,message) VALUES('" . $name . "','" . $email . "','" . $message . "')";
-$success = $conn->query($query);
- 
-if (!$success) {
-    die("Couldn't enter data: ".$conn->error);
- 
-}
- 
-echo "message envoyé! merci! <br>";
- 
-$conn->close();
- 
-*/
-
-
-
-
-/*echo $_SESSION['user']['login'];*/
 
   function sendMail ($destinataire, $Subject, $Body, $AltBody) {
     require 'vendor/autoload.php';
@@ -150,21 +131,8 @@ $conn->close();
     } else {
         echo 'Le message a été envoyé';
     }
-}/* end sendMail*/
-
-
-
-function getUserFromMail($pdo, $mail) {
-	$sql = 'SELECT firstname, lastname, password, mail FROM users WHERE mail = :mail LIMIT 1;';
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute(['mail' => $mail]);
-    return $stmt->fetch();
 }
 
-function getAdminMail($pdo) {
-	$sql = 'SELECT mail FROM users LIMIT 1';
-	$result = $pdo->query($sql);
-	$userInfos = $result->fetch();
-	return $userInfos['mail'];
-}
+
+
 
