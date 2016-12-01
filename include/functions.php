@@ -24,7 +24,20 @@ $conn->close();
 */
 
 
+/*--------------  Slider back --------------*/
+function getPictures( $idPicture) {
 
+    global $pdo;
+
+    $sql =  'SELECT * FROM pictures WHERE idPicture = :idPicture';
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':idPicture', $idPicture);
+    $stmt->bindParam(':url', $url);
+    $stmt->bindParam(':alt', $alt);
+    $stmt->bindParam(':idUser', $idUser);
+    $stmt->execute();
+    return $stmt->fetchAll();
+}
 
 /*echo $_SESSION['user']['login'];*/
 
