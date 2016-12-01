@@ -1,9 +1,6 @@
 <?php
 
-session_start();
-
-require_once '../include/dBConnection.php';
-require_once '../include/functions.php';
+require_once 'header-admin.php';
 
 // Vérifier qu'on soit bien connecté pour accéder à la page
 if(!isset($_SESSION['user'])) { 

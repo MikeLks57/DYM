@@ -1,10 +1,21 @@
 <?php 
-/*----------  fonction pour recuperer les infos de l'utilisateur  ----------*/
 
-function getUser($idUser){
+/*--------  fonction pour recuperer les infos de l'utilisateur ------*/
+
+function getUserByMail($mail){
     global $pdo;
 
-    $sql =  'SELECT idUser, firstname, lastname, mail, password, owner FROM users WHERE idUser = :idUser';
+    $sql =  'SELECT idUser, firstname, lastname, mail, password, owner FROM users WHERE mail = :mail';
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':mail', $mail);
+    $stmt->execute();
+    return $stmt->fetch();
+}
+
+function getUser($idUser){
+	global $pdo;
+
+    $sql =  'SELECT firstname, lastname, mail, password, owner FROM users WHERE idUser = :idUser';
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':idUser', $idUser);
     $stmt->execute();

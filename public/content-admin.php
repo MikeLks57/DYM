@@ -1,16 +1,6 @@
 <?php
 
-session_start();
-
-require_once '../include/dBConnection.php';
-require_once '../include/functions.php';
-
-// Vérifier qu'on soit bien connecté pour accéder à la page
-if(!isset($_SESSION['user'])) { 
-	header('Location: home.php');
-} else {
-	$idUser = $_SESSION['user']['id'];
-}
+require_once 'header-admin.php';
 
 ?>
 <!DOCTYPE html>
@@ -35,24 +25,24 @@ if(!isset($_SESSION['user'])) {
 							<?php if(isset($errors['postTitle'])) echo $errors['postTitle'] ?>
 						</p>
 						<p>
-							<textarea name="posy" id="post" cols="30" rows="30"></textarea>
+							<textarea name="post" id="post" cols="80" rows="30" placeholder="Ecrivez ici votre article"></textarea>
+						</p>
+						<p>
+							<input type="hidden" name="MAX_FILE_SIZE" value="100000000" />
+							<input type="file" name="postPic">
+							<?php if(isset($errors['postPic'])) echo $errors['postPic'] ?>
 						</p>
 						<p>
 							<input type="text" name="postLegend" placeholder="Légende de l'image">
 							<?php if(isset($errors['postLegend'])) echo $errors['postLegend'] ?>
 						</p>
 						<p>
-							<input type="hidden" name="MAX_FILE_SIZE" value="100000000" />
-							<input type="file" name="pfPic">
-							<?php if(isset($errors['pfPic'])) echo $errors['pfPic'] ?>
+							<label for="postAlt">Saisissez ici un texte alternatif pour votre image</label>
+							<input type="text" name="postAlt" placeholder="Texte alternatif">
+							<?php if(isset($errors['postAlt'])) echo $errors['postAlt'] ?>
 						</p>
 						<p>
-							<label for="pfAlt">Saisissez ici un texte alternatif pour votre image</label>
-							<input type="text" name="pfAlt" placeholder="Texte alternatif">
-							<?php if(isset($errors['pfAlt'])) echo $errors['pfAlt'] ?>
-						</p>
-						<p>
-							<input type="submit" name="pfSubmit" value="Envoyer">
+							<input type="submit" name="postSubmit" value="Envoyer">
 						</p>
 					</fieldset>
 				</form>
